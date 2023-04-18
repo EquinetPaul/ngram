@@ -1,0 +1,21 @@
+{
+  "name" : "macron",
+   "source":"data/macron.csv",
+   "data_type":"df",
+
+   "ngram_range_min":1,
+   "ngram_range_max":5,
+
+   "source_params" : {
+     "df_column" : "speech",
+     "df_parameters" : {"encoding":"utf-8", "sep":";"},
+
+     "file_extension" : ""
+   },
+
+   "parallelize" : false,
+   "dask_distributed" : false,
+   "ip_scheduler" : "192.168.1.0",
+
+   "uuid_train" : ""
+}

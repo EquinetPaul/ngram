@@ -43,6 +43,20 @@ class Vocabulary:
             raise KeyError(f"L'identifiant '{id}' n'existe pas dans le vocabulaire")
         return word
 
+    def chain_to_ids(self, text):
+        """
+        Retourne une chaine de caractères convertie en ids
+        """
+        result = " ".join([str(self.word_to_id(t)) for t in text.split()])
+        return result
+
+    def ids_to_chain(self, text):
+        """
+        Reconstitue une chaine de caractère à partir des ids
+        """
+        result = " ".join([self.id_to_word(int(t)) for t in text.split()])
+        return result
+
     def save(self, filepath):
         """
         Sauvegarder l'objet Vocabulary dans un fichier pickle.

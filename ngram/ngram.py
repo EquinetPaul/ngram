@@ -1,4 +1,3 @@
-from vocabulary import Vocabulary
 import pickle
 import random
 import copy
@@ -14,17 +13,18 @@ class Ngram():
         words = text.split(separator)
         for i in range(len(words)-self.n):
             if self.n>1:
-                sequence = tuple([words[i+y] for y in range(self.n)])
+                sequence = tuple([int(words[i+y]) for y in range(self.n)])
             else:
-                sequence = words[i]
+                sequence = int(words[i])
             get = self.chain_frequency.get(sequence,0)
+            next = int(words[i+self.n])
             if get == 0:
                 self.chain_frequency[sequence] = {}
-                self.chain_frequency[sequence][words[i+self.n]] = 1
-            elif get.get(words[i+self.n],0) == 0:
-                self.chain_frequency[sequence][words[i+self.n]] = 1
+                self.chain_frequency[sequence][next] = 1
+            elif get.get(int(words[i+self.n]),0) == 0:
+                self.chain_frequency[sequence][next] = 1
             else:
-                self.chain_frequency[sequence][words[i+self.n]] += 1
+                self.chain_frequency[sequence][next] += 1
 
     def normalize(self):
         self.chain = copy.deepcopy(self.chain_frequency)
@@ -32,16 +32,6 @@ class Ngram():
             sum_frequency = sum(value.values())
             for k, v in value.items():
                 self.chain[key][k] = v / sum_frequency
-
-    def generate_sentence(self, sentence):
-        while sentence[-1] not in [".", "!", "?"]:
-            if self.n>1:
-                current_sequence = tuple(sentence.split()[-self.n:])
-            else:
-                current_sequence = sentence.split()[-1]
-            sentence += " " + random.choices(list(self.chain[current_sequence].keys()), weights=list(self.chain[current_sequence].values()))[0]
-        sentence = " ".join(sentence.split())
-        return sentence
 
     def save(self, filepath):
         with open(filepath, 'wb') as save_file:
