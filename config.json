@@ -18,5 +18,7 @@
    "scheduler_address" : "192.168.1.30",
    "local_scheduler_address" : "127.0.0.1:8786",
 
-   "uuid_train" : ""
+   "uuid_train" : "",
+
+   "generate_name" : "macron"
 }

@@ -211,11 +211,8 @@ def main():
         # Remove temp files
         [os.remove(path) for path in glob("data/temp/*.tmp")]
 
-
         total_end_time = time.time()
         logging.info(f"All Procedure finished in {round(total_end_time-total_start_time,2)}s")
-
-
 
 if __name__ == '__main__':
     main()
