@@ -27,8 +27,10 @@ def load_config():
         sys.exit(1)
         raise
 
-def generate_sentence(models):
-    pass
+def generate_sentence(models, starts_with, min_words, end_char):
+    sentence = starts_with
+    # while len(sentence.split()) < min_words:
+    #     word_count =
 
 def load_models(generate_name):
     logging.info("Loading models...")
@@ -44,24 +46,28 @@ def load_models(generate_name):
 
         models[n] = temp_ngram
 
+    return models
+
 def main():
     config = load_config()
     generate_name = config["generate_name"]
     nb_sentences_to_generate = config["nb_sentences_to_generate"]
+    starts_with = config["starts_with"]
     delay = config["delay"]
+    starts_with = config["starts_with"]
+    min_words = config["min_words"]
+    end_char = config["end_char"]
 
     models = load_models(generate_name)
     logging.info(f"{len(models)} models loaded.")
 
-    # 
+    print(models)
     # logging.info(f"Generating {nb_sentences_to_generate} sentences...")
-    # sentences = [generate_sentence(models) for _ in range(nb_sentences_to_generate)]
+    # sentences = [generate_sentence(models, starts_with, min_words, end_char) for _ in range(nb_sentences_to_generate)]
     #
     # for sentence in sentences:
     #     time.sleep(delay)
     #     logging.info(sentence)
-
-
 
 if __name__ == '__main__':
     main()
