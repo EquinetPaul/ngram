@@ -80,7 +80,7 @@ def load_or_create_vocabulary(data, name):
 
     vocab_exists = os.path.exists(path_vocab)
 
-    vocab = Vocabulary()
+    vocab = vocabulary.Vocabulary()
 
     try:
         if vocab_exists:
