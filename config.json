@@ -21,5 +21,9 @@
    "uuid_train" : "",
 
    "generate_name" : "macron",
-   "nb_sentences_to_generate" : 10
+   "nb_sentences_to_generate" : 10,
+   "delay" : 0,
+   "starts_with" : "Le",
+   "min_words" : 10,
+   "end_char" : [".", "!", "?"]
 }

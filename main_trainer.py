@@ -17,8 +17,6 @@ import json
 from glob import glob
 from tqdm import tqdm
 
-import pickle
-
 logging.basicConfig(format='%(levelname)s %(asctime)s - %(message)s', level=logging.INFO)
 
 def load_config():
@@ -128,6 +126,11 @@ def preprocessing(text):
 
 
 def main():
+    # Create Folders
+    os.makedirs("data/ngram", exist_ok=True)
+    os.makedirs("data/vocabs", exist_ok=True)
+    os.makedirs("data/temp", exist_ok=True)
+
     config = load_config()
     name = config["name"]
     data = load_data(config["source"], config["data_type"], config["source_params"])
