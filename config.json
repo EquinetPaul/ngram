@@ -20,5 +20,6 @@
 
    "uuid_train" : "",
 
-   "generate_name" : "macron"
+   "generate_name" : "macron",
+   "nb_sentences_to_generate" : 10
 }
