@@ -5,6 +5,9 @@ import uuid
 import time
 from joblib import Parallel, delayed
 import multiprocessing
+from dask.distributed import Client
+from dask import delayed
+from dask.distributed import progress
 
 import vocabulary
 import ngram
@@ -14,8 +17,87 @@ import json
 from glob import glob
 from tqdm import tqdm
 
+import pickle
 
-logging.basicConfig(format='%(levelname)s %(asctime)s - %(message)s', level=logging.DEBUG)
+class Vocabulary:
+    def __init__(self):
+        """
+        Initialiser le vocabulaire
+        """
+        self.vocab = {}
+        self.id2word = {}
+        self.counter = 1
+        self.counter_total = [0]
+        self.nb_documents = 0
+
+    def update(self, text):
+        """
+        Mettre à jour le vocabulaire à partir d'une chaîne de caractères.
+        """
+        text = str(text)
+        for word in text.split():
+            get = self.vocab.get(word, 0)
+            if get == 0:
+                self.vocab[word] = self.counter
+                self.id2word[self.counter] = word
+                self.counter += 1
+        self.counter_total.append(self.counter)
+        self.nb_documents += 1
+
+    def word_to_id(self, word):
+        """
+        Retourner l'identifiant unique d'un mot.
+        """
+        word_id = self.vocab.get(word)
+        if word_id is None:
+            raise KeyError(f"Le mot '{word}' n'existe pas dans le vocabulaire")
+        return word_id
+
+    def id_to_word(self, id):
+        """
+        Retourner le mot correspondant à un identifiant unique.
+        """
+        word = self.id2word.get(id)
+        if word is None:
+            raise KeyError(f"L'identifiant '{id}' n'existe pas dans le vocabulaire")
+        return word
+
+    def chain_to_ids(self, text):
+        """
+        Retourne une chaine de caractères convertie en ids
+        """
+        result = " ".join([str(self.word_to_id(t)) for t in text.split()])
+        return result
+
+    def ids_to_chain(self, text):
+        """
+        Reconstitue une chaine de caractère à partir des ids
+        """
+        result = " ".join([self.id_to_word(int(t)) for t in text.split()])
+        return result
+
+    def save(self, filepath):
+        """
+        Sauvegarder l'objet Vocabulary dans un fichier pickle.
+        """
+        with open(filepath, 'wb') as f:
+            pickle.dump(self.__dict__, f)
+
+    def load(self, filepath):
+        """
+        Charger l'objet Vocabulary depuis un fichier pickle.
+        """
+        with open(filepath, 'rb') as f:
+            obj = pickle.load(f)
+            self.vocab = obj['vocab']
+            self.id2word = obj['id2word']
+            self.counter = obj['counter']
+            self.counter_total = obj['counter_total']
+            self.nb_documents = obj['nb_documents']
+
+
+
+logging.basicConfig(format='%(levelname)s %(asctime)s - %(message)s', level=logging.INFO)
 
 def load_config():
     """
@@ -76,7 +158,7 @@ def load_or_create_vocabulary(data, name):
 
     vocab_exists = os.path.exists(path_vocab)
 
-    vocab = vocabulary.Vocabulary()
+    vocab = Vocabulary()
 
     try:
         if vocab_exists:
@@ -138,6 +220,18 @@ def main():
     ngram_max = config["ngram_range_max"]
 
     logging.info(f"Training Ngram range({ngram_min},{ngram_max})")
+    total_start_time = time.time()
+
+    if config["dask_distributed"]:
+        logging.info("Starting Dask session...")
+        local_scheduler_address = config["local_scheduler_address"]
+        client = Client(local_scheduler_address)
+        workers = client.scheduler_info()['workers']
+        nthreads_total = sum(worker['nthreads'] for worker in workers.values())
+        logging.info(f"Active Workers: {len(workers)}, Total Threads: {nthreads_total}")
+        logging.info("Sending Vocabulary to workers...")
+        distributed_vocab = client.scatter(vocab, broadcast=True)
+
     for n in range(ngram_min, ngram_max+1):
         [os.remove(path) for path in glob("data/temp/*.tmp")]
         start_time = time.time()
@@ -151,10 +245,21 @@ def main():
 
         else:
             # Commencer la session Dask
-            ip_scheduler = config["ip_scheduler"]
+            scheduler_address = config["scheduler_address"]
             logging.info(f"Starting Training, n={n} on Dask Cluster.")
-            logging.info(f"Scheduler IP: {ip_scheduler}")
-            logging.info(f"Active Workers: ")
+            logging.info(f"Scheduler IP: {scheduler_address}")
+
+            client = Client(local_scheduler_address)
+            workers = client.scheduler_info()['workers']
+            nthreads_total = sum(worker['nthreads'] for worker in workers.values())
+
+            logging.info(f"Active Workers: {len(workers)}, Total Threads: {nthreads_total}")
+
+            results = [delayed(train_ngram)(text, distributed_vocab) for text in data]
+
+            futures = client.compute(results)
+
+            progress(futures)
 
         end_time = time.time()
         logging.info(f"Training finished in {round(end_time-start_time,2)}s")
@@ -178,15 +283,15 @@ def main():
         logging.info(f"Merging finished in {round(end_time-start_time,2)}s")
 
         logging.info(f"Saving model...")
-        gram_final.save(output_path+"/model.ngram")
+        gram_final.save(output_path+f"/model_{n}.ngram")
         logging.info(f"Saved in {output_path}.")
 
-
-
         # Remove temp files
-        # [os.remove(path) for path in glob("data/temp/*.tmp")]
+        [os.remove(path) for path in glob("data/temp/*.tmp")]
 
 
+        total_end_time = time.time()
+        logging.info(f"All Procedure finished in {round(total_end_time-total_start_time,2)}s")
 
 
 
