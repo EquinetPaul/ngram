@@ -23,7 +23,9 @@
    "generate_name" : "macron",
    "nb_sentences_to_generate" : 10,
    "delay" : 0,
-   "starts_with" : "Le",
+   "starts_with" : "Bonjour le",
    "min_words" : 10,
-   "end_char" : [".", "!", "?"]
+   "end_char" : [".", "!", "?"],
+   "display_model_used" : true,
+   "max_ngram_to_use" : 3
 }
