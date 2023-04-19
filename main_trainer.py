@@ -132,14 +132,14 @@ def main():
     os.makedirs("data/temp", exist_ok=True)
 
     config = load_config()
-    name = config["name"]
+    name = config["generate_name"]
     data = load_data(config["source"], config["data_type"], config["source_params"])
     logging.info(f"{len(data)} documents loaded.")
 
     logging.info("Preprocessing...")
     data = [preprocessing(text) for text in tqdm(data)]
 
-    vocab = load_or_create_vocabulary(data, config["name"])
+    vocab = load_or_create_vocabulary(data, config["generate_name"])
 
     ngram_min = config["ngram_range_min"]
     ngram_max = config["ngram_range_max"]

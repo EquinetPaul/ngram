@@ -1,31 +1,36 @@
 {
-  "name" : "macron",
+  "generate_name":"macron",
    "source":"data/macron.csv",
    "data_type":"df",
+   "file_extension":".txt",
+   "source_params":{
+     "df_column":"speech",
+     "df_parameters":{
+       "encoding":"utf-8",
+       "sep":";"
+     }
+   },
+
+   "parallelize":false,
+
+   "dask_distributed":false,
+   "scheduler_address":"192.168.1.30",
+   "local_scheduler_address":"127.0.0.1:8786",
+
+   "uuid_train":"",
 
    "ngram_range_min":1,
    "ngram_range_max":5,
 
-   "source_params" : {
-     "df_column" : "speech",
-     "df_parameters" : {"encoding":"utf-8", "sep":";"},
-
-     "file_extension" : ""
-   },
-
-   "parallelize" : false,
-   "dask_distributed" : false,
-   "scheduler_address" : "192.168.1.30",
-   "local_scheduler_address" : "127.0.0.1:8786",
-
-   "uuid_train" : "",
-
-   "generate_name" : "macron",
-   "nb_sentences_to_generate" : 10,
-   "delay" : 0,
-   "starts_with" : "Bonjour le",
-   "min_words" : 10,
-   "end_char" : [".", "!", "?"],
-   "display_model_used" : true,
-   "max_ngram_to_use" : 3
+   "nb_sentences_to_generate":10,
+   "delay":0,
+   "starts_with":"Bonjour le",
+   "min_words":10,
+   "end_char":[
+      ".",
+      "!",
+      "?"
+   ],
+   "display_model_used":false,
+   "max_ngram_to_use":3
 }
