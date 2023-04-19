@@ -13,7 +13,10 @@ logging.basicConfig(format='%(levelname)s %(asctime)s - %(message)s', level=logg
 
 def load_config():
     """
-    Fonction permettant de charger le fichier de configuration config.json et de le charger en tant que dictionnaire Python.
+    Function for loading the configuration from the "config.json" file.
+
+    Returns:
+        dict: Configuration
     """
     try:
         logging.info("Loading configuration...")
@@ -28,7 +31,17 @@ def load_config():
         sys.exit(1)
         raise
 
-def load_models(generate_name, max_ngram_to_use):
+def load_models(generate_name:str, max_ngram_to_use:int):
+    """
+    Function for loading the models.
+
+    Args:
+        generate_name (str): Project name (used to retrieve the vocabulary and trained models, usually associated with the trained data).
+        max_ngram_to_use (int): maximum n of n-gram to load.
+
+    Returns:
+        list: List containing the models.
+    """
     logging.info("Loading models...")
     sub_folders = glob(f"data/ngram/{generate_name}/*")
     models = {}
@@ -49,11 +62,27 @@ def load_models(generate_name, max_ngram_to_use):
     return models
 
 class Sentence:
+    """
+    Class for representing "sentence" objects.
+    """
     def __init__(self, start=""):
         self.s = start
         self.models_used = []
 
-def generate_sentence(models, vocab, starts_with, min_words, end_char, display_model_used):
+def generate_sentence(models, vocab, starts_with, min_words, end_char):
+    """
+    unction for generating sentences using ngram model(s).
+
+    Args:
+        models (list): List of models to use.
+        vocab (Vocabulary): Vocabulary associated with the data.
+        starts_with (str): Beginning of the sentence.
+        min_words (int): Minimum number of words.
+        end_char (list): List containing the characters that should end a generated sentence.
+
+    Returns:
+        Sentence: the generated sentence
+    """
     model_keys = list(models.keys())
     max_models = max(model_keys)
     word_count = 1
@@ -112,6 +141,9 @@ def generate_sentence(models, vocab, starts_with, min_words, end_char, display_m
     return result
 
 def main():
+    """
+    Function for loading the configuration, vocabulary, models, and generating sentences from the models.
+    """
     config = load_config()
     generate_name = config["generate_name"]
     nb_sentences_to_generate = config["nb_sentences_to_generate"]
@@ -132,7 +164,7 @@ def main():
     logging.info(f"{len(models)} models loaded.")
 
     logging.info(f"Generating {nb_sentences_to_generate} sentences...")
-    sentences = [generate_sentence(models, vocab, starts_with, min_words, end_char, display_model_used) for _ in range(nb_sentences_to_generate)]
+    sentences = [generate_sentence(models, vocab, starts_with, min_words, end_char) for _ in range(nb_sentences_to_generate)]
 
     for sentence in sentences:
         time.sleep(random.uniform(0, delay+1))
