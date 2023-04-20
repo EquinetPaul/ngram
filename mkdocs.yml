@@ -1,8 +1,0 @@
-site_name: NGRAM for NLP
-theme:
-  name: material
-nav:
-  - Home: index.md
-  - Installation: installation.md
-  - Configuration: config.md
-  - Usage: usage.md
