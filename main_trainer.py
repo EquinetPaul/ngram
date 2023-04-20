@@ -196,7 +196,10 @@ def main():
 
             else:
                 # Training on single CPU
-                [train_ngram(n, str(text), vocab) for text in tqdm(data)]
+                len_data = len(data)
+                for i, text in zip(range(len_data), tqdm(data)):
+                    train_ngram(n, str(text), vocab)
+                    del data[i]
 
         else:
             # Commencer la session Dask
