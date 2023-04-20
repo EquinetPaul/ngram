@@ -36,7 +36,7 @@ def load_config():
         sys.exit(1)
         raise
 
-def load_data(path:str, data_type:str, params):
+def load_data(parameters):
     """
     Fonction permettant de charger les données en fonction des paramètres donnés dans le fichier de configuration.
 
@@ -47,17 +47,21 @@ def load_data(path:str, data_type:str, params):
     Type de données pris en compte: DataFrame, Fichiers
     """
     try:
+        path = parameters["source"]
         logging.info("Loading Data...")
+        data_type = parameters["data_type"]
         if data_type == "df":
-            df = pd.read_csv(path, **params["df_parameters"])
-            data = df[params["df_column"]].to_list()
+            df = pd.read_csv(path, **parameters["source_params"]["df_parameters"])
+            data = df[parameters["source_params"]["df_column"]].to_list()
+
         if data_type == "files":
-            files_paths = glob("data/"+"*"+params["file_extension"])
-            data = [open(file, encoding="utf-8", mode="r").read() for file in files_paths]
+            files_paths = glob(path+"*"+parameters["file_extension"])
+            data = [open(file, encoding="utf-8", mode="r").read() for file in tqdm(files_paths)]
+
         logging.info("Loaded.")
         return data
     except Exception as e:
-        logging.error(f"Error while loading data on {path}.")
+        logging.error(f"Error while loading data in {path}.")
         logging.error(e)
         logging.error("Exiting.")
         sys.exit(1)
@@ -133,7 +137,7 @@ def main():
 
     config = load_config()
     name = config["generate_name"]
-    data = load_data(config["source"], config["data_type"], config["source_params"])
+    data = load_data(config)
     logging.info(f"{len(data)} documents loaded.")
 
     logging.info("Preprocessing...")
@@ -188,6 +192,12 @@ def main():
 
         end_time = time.time()
         logging.info(f"Training finished in {round(end_time-start_time,2)}s")
+
+
+        logging.info("Libération de la mémoire...")
+        del vocab
+        del data
+        logging.info("Mémoire libérée.")
 
         # Prepare Mergine
         output_path = f"data/ngram/{name}/{n}"
