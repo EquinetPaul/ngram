@@ -123,6 +123,25 @@ def merge_grams(gram1, gram2):
                     gram1.chain_frequency[key][sub_key] += sub_value
     return gram1
 
+def merge_models_incrementally(models_to_merge):
+    while len(models_to_merge) > 1:
+        new_models = []
+
+        # Fusionner les modèles par paires
+        for i in range(0, len(models_to_merge), 2):
+            if i + 1 < len(models_to_merge):
+                model1 = models_to_merge[i]
+                model2 = models_to_merge[i + 1]
+                merged_model = merge_grams(model1, model2)
+                new_models.append(merged_model)
+            else:
+                # S'il reste un modèle impair, ajoutez-le simplement à la liste des nouveaux modèles
+                new_models.append(models_to_merge[i])
+
+        models_to_merge = new_models
+
+    return models_to_merge[0]
+
 def preprocessing(text):
     text = text.strip()
     text = text.replace("\n", " ")
@@ -165,12 +184,18 @@ def main():
     for n in range(ngram_min, ngram_max+1):
         [os.remove(path) for path in glob("data/temp/*.tmp")]
         start_time = time.time()
+
+        # Training with Dask
         if not config["dask_distributed"]:
             logging.info(f"Starting Training Ngram, n={n} on local CPU")
+
+            # Training parallelized
             if config["parallelize"]:
                 logging.info(f"Parallel Processes: {multiprocessing.cpu_count()} ")
                 Parallel(n_jobs=-1)(dlyed(train_ngram)(n, str(text), vocab) for text in data)
+
             else:
+                # Training on single CPU
                 [train_ngram(n, str(text), vocab) for text in tqdm(data)]
 
         else:
@@ -194,7 +219,6 @@ def main():
         end_time = time.time()
         logging.info(f"Training finished in {round(end_time-start_time,2)}s")
 
-
         logging.info("Libération de la mémoire...")
         del vocab
         del data
@@ -214,6 +238,7 @@ def main():
             sub_gram = ngram.Ngram()
             sub_gram.load(model_path)
             gram_final = merge_grams(gram_final, sub_gram)
+            os.remove(model_path)
 
         end_time = time.time()
         logging.info(f"Merging finished in {round(end_time-start_time,2)}s")
@@ -222,11 +247,16 @@ def main():
         gram_final.save(output_path+f"/model_{n}.ngram")
         logging.info(f"Saved in {output_path}.")
 
+        logging.info("Libération de la mémoire...")
+        del gram_final
+        logging.info("Mémoire libérée.")
+
         # Remove temp files
         [os.remove(path) for path in glob("data/temp/*.tmp")]
 
         total_end_time = time.time()
         logging.info(f"All Procedure finished in {round(total_end_time-total_start_time,2)}s")
+
 
 if __name__ == '__main__':
     main()
