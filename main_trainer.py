@@ -3,7 +3,8 @@ import os
 import logging
 import uuid
 import time
-from joblib import Parallel, delayed
+from joblib import Parallel
+from joblib import delayed as dlyed
 import multiprocessing
 from dask.distributed import Client
 from dask import delayed
@@ -168,7 +169,7 @@ def main():
             logging.info(f"Starting Training Ngram, n={n} on local CPU")
             if config["parallelize"]:
                 logging.info(f"Parallel Processes: {multiprocessing.cpu_count()} ")
-                Parallel(n_jobs=-1)(delayed(train_ngram)(n, str(text), vocab) for text in data)
+                Parallel(n_jobs=-1)(dlyed(train_ngram)(n, str(text), vocab) for text in data)
             else:
                 [train_ngram(n, str(text), vocab) for text in tqdm(data)]
 
