@@ -1,8 +1,0 @@
-numpy
-pandas
-tqdm
-joblib
-dask[distributed]
-mkdocs
-mkdocs-material
-mkdocstrings
