@@ -1,0 +1,553 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="installation/">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
+    
+    
+      
+        <title>NGRAM for NLP</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ded33207.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ngram-for-nlp" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="NGRAM for NLP" class="md-header__button md-logo" aria-label="NGRAM for NLP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NGRAM for NLP
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="NGRAM for NLP" class="md-nav__button md-logo" aria-label="NGRAM for NLP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    NGRAM for NLP
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Home
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-it" class="md-nav__link">
+    What is it?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generative-language-models" class="md-nav__link">
+    Generative Language Models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probabilistic-models" class="md-nav__link">
+    Probabilistic Models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n-gram" class="md-nav__link">
+    N-gram
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources" class="md-nav__link">
+    Ressources
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="config/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-it" class="md-nav__link">
+    What is it?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generative-language-models" class="md-nav__link">
+    Generative Language Models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probabilistic-models" class="md-nav__link">
+    Probabilistic Models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n-gram" class="md-nav__link">
+    N-gram
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources" class="md-nav__link">
+    Ressources
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="ngram-for-nlp">NGRAM for NLP</h1>
+<!-- For full documentation visit [mkdocs.org](https://www.mkdocs.org). -->
+
+<h2 id="what-is-it">What is it?</h2>
+<p><strong>NGRAM for NLP</strong> is a set of scripts and algorithms for training and using probabilistic/statistical <strong> generative language models</strong> such as n-grams</p>
+<p>Since the emergence of Transformer models in 2017 with the scientific paper <a href="https://arxiv.org/abs/1706.03762">"Attention Is All You Need"</a>, which led to the appearance of highly performant generative language models demonstrating capabilities never seen before, this project was initiated based on a state-of-the-art of generative language models proposed by Paul Equinet as part of his final year project to complete his engineering degree in applied mathematics at CyTech Pau.</p>
+<p>The aim of this project and its associated documentation is to provide pedagogical tools for understanding language models.</p>
+<h2 id="generative-language-models">Generative Language Models</h2>
+<p>Generative language models are artificial intelligence models that learn to produce text, speech, or other forms of linguistic data similar to those produced by humans.</p>
+<p>If I give you the phrase</p>
+<ul>
+<li>The capital of France is...</li>
+</ul>
+<p>you would be tempted to answer 'Paris'.</p>
+<p>For the phrase</p>
+<ul>
+<li>The cat eats the...</li>
+</ul>
+<p>you would probably answer 'mouse'.</p>
+<p>Well, that's what language models do. They use the data given to them and select/predict THE next word that has the highest probability of appearing next.</p>
+<p>In an iterative process, it uses the input sequence given to it and the sequences it has generated to produce the next sequence. In this way, it constructs entire sentences or entire paragraphs.</p>
+<p>Dans la phrase <em>"The capital of France is..."</em>, ce qui nous pousse à répondre <em>"Paris"</em> est le fait que l'on a capté les mots <em>"capital"</em> et <em>"France"</em> et qu'en les associant, le mot qui nous vient ensuite est "Paris". En quelque sorte, notre esprit a fait la somme de ces deux termes et en a conclu qu'il en résultait <em>"Paris"</em>. On pourrait résumer ce mécanisme à:</p>
+<blockquote>
+<p><em>"capital"</em> + <em>"France"</em> = <em>"Paris"</em></p>
+</blockquote>
+<p>Ce mecanisme qui est naturel chez nous est ce que l'on appelle un <strong>mechanisme d'attention</strong>. Notre cerveau a associé différentes informations via ce mechanisme pour produire quelque chose.</p>
+<p>Maintenant, si l'on souhaite entraîner un modèle étant capable de reproduire de mechanisme d'attention, il faudrait se pencher sur les algorithmes de réseaux de neurones profonds utilisant une structure Transformer ou récurrente.</p>
+<p>Cependant, étant donné que ce projet a pour but de nous initier aux modèles de langage génératifs, nous allons réfléchir à un moyen plus simple, en terme de compréhension, pour entraîner et utiliser ce genre de modèle.</p>
+<p>Si je souhaite entraîner un modèle capable de prédire le mot qui suit une séquence donnée et que je vous donne la phrase:</p>
+<ul>
+<li><em>the present and the future</em></li>
+</ul>
+<p>L'une des méthode qui nous vient en tête est de se dire: je prends les mots un à un et je regarde le mot qui vient après.</p>
+<p>De cette manière j'obtiens la fréquence d'apparition d'un mot par rapport à un autre et donc la probabilité par exemple que le mot <em>"the"</em> soit suivi de "<em>present</em>" ou de <em>"future"</em>.</p>
+<p>C'est de cette manière que l'on construire des modèles de langage probabilistes ou fréquentiels que l'on appelle aussi des N-gram.</p>
+<!-- ![Schéma](/img/ngram1.gif) -->
+
+<h2 id="probabilistic-models">Probabilistic Models</h2>
+<p>Comme vu précedemment, nous pouvons étudier des phrases en prenant chacun des mots qui la composent et déterminer la probabilité qu'un mot puisse succèder à un autre.</p>
+<p>La méthode utilisée permet d'obtenir des probabilités pour des mots les uns après les autres.</p>
+<p>C'est à dire que pour la phrase <em>"the present and <mark>the</mark>"</em> on ne se basera que sur le mot <em><mark>the</mark></em> pour prédire le prochain mot. Dans ce cas, on aurait:</p>
+<ul>
+<li>50% de chance de prédire <em>future</em></li>
+<li>50% de chance de prédire <em>present</em></li>
+</ul>
+<p>Dans le GIF précedent on voit comment on peut calculer les probabilités sur une phrase (<em>the present and the future</em>) mais l'objectif serait d'avoir un corpus de phrase de grande taille pour varier les combinaisons de phrases et donc d'associations de mots. Ce qui nous permettrait de varier les générations et de limiter les répétitions.</p>
+<p>Malgré cela, le fait de ne se contenter que du mot précédent pour prédire celui d'après peut mener à certaines générations non pertinentes voire absurdes.</p>
+<p>Par exemple, si on entraîne un modèle sur les phrases:</p>
+<ul>
+<li><em>the chiken is in the farm</em></li>
+<li><em>the shark is in the sea</em></li>
+</ul>
+<p>Il sera très probable si en entrée on lui donne <em>the chicken is in the</em> qu'il complète par <strong>sea</strong>.</p>
+<ul>
+<li><em>the chiken is in the <mark>sea</mark></em></li>
+</ul>
+<p>Surprenant! Mais bon c'est logique étant donné que le modèle s'est entraîné à prédire la suite d'une phrase en ne se basant que sur le dernier mot.</p>
+<p>Pour remédier à ce problème, on pourrait envisager de prendre en considération plus d'éléments dans la phrase, plus de mots pour avoir plus de contexte.</p>
+<p>C'est à ce moment qu'interviennent les N-grams!</p>
+<h2 id="n-gram">N-gram</h2>
+<p>En traitement du langage naturel (NLP), les N-grams font partie des modèles de langage génératifs probabilistes. Ils utilisent les séquences des "n" mots précédents pour s'entraîner et fournir la probabilité du mot suivant.</p>
+<p>Dans les exemples précédents, nous prenions uniquement le mot précédent pour prédire celui d'après, nous étions dans le cas d'un 1-gram ou unigramme.</p>
+<p>Voici la liste des différents types de n-grams et exemples de génération</p>
+<p><span style="background-color: #7FB3D5">input</span>
+<span style="background-color: #F7DC6F">context</span>
+<span style="background-color: #82E0AA">generated word</span>
+<span style="background-color: #E5E8E8">associated probability</span></p>
+<ul>
+<li>
+<p>n=1, unigramme</p>
+<ul>
+<li><em><span style="background-color: #7FB3D5">the</span> shark is in <span style="background-color: #F7DC6F">the</span> <span style="background-color: #82E0AA">chicken</span> - <span style="background-color: #E5E8E8">0.25</span></em></li>
+<li><em><span style="background-color: #7FB3D5">the</span> shark is in <span style="background-color: #F7DC6F">the</span> <span style="background-color: #82E0AA">shark</span> - <span style="background-color: #E5E8E8">0.25</span></em></li>
+</ul>
+</li>
+<li>
+<p>n=2, bigramme</p>
+<ul>
+<li><em><span style="background-color: #7FB3D5">the</span> shark is <span style="background-color: #F7DC6F">in the</span> <span style="background-color: #82E0AA">farm</span> - <span style="background-color: #E5E8E8">0.5</span></em></li>
+</ul>
+</li>
+<li>
+<p>n=3, trigramme</p>
+<ul>
+<li><em><span style="background-color: #7FB3D5">the</span> shark <span style="background-color: #F7DC6F">is in the</span> <span style="background-color: #82E0AA">farm</span> - <span style="background-color: #E5E8E8">0.5</span></em></li>
+</ul>
+</li>
+<li>
+<p>n=4, quadrigramme</p>
+<ul>
+<li><em><span style="background-color: #7FB3D5">the</span> <span style="background-color: #F7DC6F">shark is in the</span> <span style="background-color: #82E0AA">sea</span> - <span style="background-color: #E5E8E8">1.0</span></em></li>
+</ul>
+</li>
+<li>
+<p>...</p>
+</li>
+</ul>
+<p>On pourrait construire des n-grams très grands pour conserver le plus de contexte possible et obtenir des prédictions justes mais il faut se rappeler que les n-grams sont des modèles probabilistes. C'est à dire qu'ils fournissent des probabilités uniquement sur les données sur lesquelles ils ont été entrainés. De ce fait, plus on agrandira la fenêtre de contexte, plus le modèle apprendra effectivement des relations précises mais ces relations seront fortement influencées par la taille du corpus d'entraînement.</p>
+<p>Si dans mon corpus j'ai des phrases courtes, disons de longueure fixe maximale 6, et que j'entraîne un modèle n-gram où n=5, le modèle sera en mesure de reproduire exactement les phrases du corpus étant donné que sa fenêtre de contexte couvrira presque la phrase entière.</p>
+<p>Mais à partir du moment où on agrandit le corpus, on augmente les combinaisons possibles et de cette manière on introduit plus de diversité dans les probabilités et donc dans les possiblités de génération.</p>
+<p>Comme vu plus haut pour les unigrammes, les n-grams prendront des séquences des n prédécents mot pour prédire le prochains sur toute la phrase.</p>
+<p>Exemple avec n=3:</p>
+<p><span style="background-color: #F7DC6F">n sequence</span>
+<span style="background-color: #82E0AA">next</span></p>
+<ul>
+<li><span style="background-color: #F7DC6F">the chiken is</span> <span style="background-color: #82E0AA">in</span> the farm</li>
+<li>the <span style="background-color: #F7DC6F">chiken is in</span> <span style="background-color: #82E0AA">the</span> farm</li>
+<li>the chiken <span style="background-color: #F7DC6F">is in the</span> <span style="background-color: #82E0AA">farm</span></li>
+</ul>
+<p>Nous aurons donc un modèle n-gram où n=3, qui sur cette phrase, ressemblerait à:</p>
+<pre><code>{
+  &quot;the chiken is&quot; : {&quot;in&quot; : 1},
+  &quot;chiken is in&quot; : {&quot;the&quot; : 1},
+  &quot;is in the&quot; : {&quot;farm&quot; : 1}
+}
+</code></pre>
+<p>Ce projet a pour but de mettre en place un algorithme permettant d'entraîner et d'utiliser des n-grams.</p>
+<h2 id="ressources">Ressources</h2>
+<p>More ressources for more understanding</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/N-gram">N-gram Wikipedia</a></li>
+<li><a href="https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058">Understanding Word N-grams and N-gram Probability in Natural Language Processing</a></li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>
