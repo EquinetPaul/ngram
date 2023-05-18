@@ -1,3 +1,3 @@
-# Ngram for NLP Tasks
+# Ngram for LM
 
 <!-- # [Documentation](https://equinetpaul.github.io/ngram_nlp/) -->
